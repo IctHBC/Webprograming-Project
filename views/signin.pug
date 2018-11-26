@@ -1,0 +1,30 @@
+extends layout
+
+block content
+  .container
+    .clearfix
+      form.form-signin(action='/signin', method='POST')
+        h3.form-signin-heading 접속
+        label.sr-only(for='email') Email add
+        input(
+          type='email', id='email', name='email', class='form-control', 
+          placeholder='Email address', required, autofocus
+        )
+        label.sr-only(for='password') Password
+        input(
+          type='password', id='password', name='password', class='form-control', 
+          placeholder='Password', required, autofocus
+        )
+        .checkbox
+          label 
+            input(type="checkbox", value="remember-me")
+            |
+            | 로그인 상태 유지
+        button.btn.btn-primary.btn-block(type='submit') 로그인
+        div.sub 
+          a(href='/users/new') 회원가입
+          | 
+          | /
+          |
+          a(href='/reset-password') 비밀번호 초기화
+      
