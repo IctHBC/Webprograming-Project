@@ -7,13 +7,19 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var methodOverride = require('method-override');
 var flash = require('connect-flash');
-var mongoose = require('mongoose');
+var mongoose   = require('mongoose');
+mongoose.Promise = global.Promise;
+mongoose.connect('mongodb://dbuser1:mju12345@ds113825.mlab.com:13825/sampledb1', {
+  useMongoClient: true
+});
+mongoose.connection.on('error', console.error);
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var questions = require('./routes/questions');
 
 var app = express();
- 
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -29,10 +35,10 @@ app.locals.querystring = require('querystring');
 // mongodb connect
 //=======================================================
 mongoose.Promise = global.Promise; // ES6 Native Promise를 mongoose에서 사용한다.
-const connStr = 'mongodb://dbuser1:1138asdf^^@ds225624.mlab.com:25624/project';
+const connStr = 'mongodb://localhost/mjdb1';
 // 아래는 mLab을 사용하는 경우의 예: 본인의 접속 String으로 바꾸세요.
 // const connStr = 'mongodb://dbuser1:mju12345@ds113825.mlab.com:13825/sampledb1';
-mongoose.connect(connStr, {useNewUrlParser: true});
+mongoose.connect(connStr, {useMongoClient: true });
 mongoose.connection.on('error', console.error);
 
 // Favicon은 웹사이트의 대표 아이콘입니다. Favicon을 만들어서 /public에 둡시다.

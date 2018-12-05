@@ -1,0 +1,21 @@
+extends ../layout
+
+block content
+  .container
+    h1.main-title= user.name
+          
+    dl.row
+      dt.col-sm-3 이메일
+      dd.col-sm-9
+        a(href=`mailto:${user.email}`)= user.email
+
+      dt.col-sm-3 회원가입한 시간
+      dd.col-sm-9= user.createdAt
+
+    hr
+    p
+      a.btn.btn-outline-secondary(href='/users/') 회원 리스트
+      | 
+      a.btn.btn-outline-primary(href=`/users/${user._id}/edit`) 새로운 계정 추가
+      | 
+      a.btn.btn-outline-danger(href=`/users/${user._id}?_method=DELETE`) 회원 정보 삭제
