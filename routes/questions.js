@@ -11,7 +11,7 @@ function needAuth(req, res, next) {
     if (req.session.user) {
       next();
     } else {
-      req.flash('danger', 'Please signin first.');
+      req.flash('danger', 'Please signin first..');
       res.redirect('/signin');
     }
 }
