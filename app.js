@@ -29,10 +29,12 @@ app.locals.querystring = require('querystring');
 // mongodb connect
 //=======================================================
 mongoose.Promise = global.Promise; // ES6 Native Promise를 mongoose에서 사용한다.
-const connStr = 'mongodb://dbuser1:1138asdf^^@ds225624.mlab.com:25624/project';
+const connStr = (process.env.Node_ENV == 'production')?
+'mongodb://dbuser1:1138asdf^^@ds225624.mlab.com:25624/project' :
+'mongodb://localhost/mjdb3';
 // 아래는 mLab을 사용하는 경우의 예: 본인의 접속 String으로 바꾸세요.
 // const connStr = 'mongodb://dbuser1:mju12345@ds113825.mlab.com:13825/sampledb1';
-mongoose.connect(connStr, {useNewUrlParser: true});
+mongoose.connect(connStr, {useMongoClient: true});
 mongoose.connection.on('error', console.error);
 
 // Favicon은 웹사이트의 대표 아이콘입니다. Favicon을 만들어서 /public에 둡시다.
