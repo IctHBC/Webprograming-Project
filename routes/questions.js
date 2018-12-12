@@ -6,7 +6,7 @@ const catchErrors = require('../lib/async-error');
 
 const router = express.Router();
 
-// 동일한 코드가 users.js에도 있습니다. 이것은 나중에 수정합시다.
+
 function needAuth(req, res, next) {
     if (req.session.user) {
       next();
@@ -16,7 +16,6 @@ function needAuth(req, res, next) {
     }
 }
 
-/* GET questions listing. */
 router.get('/', catchErrors(async (req, res, next) => {
   const page = parseInt(req.query.page) || 1;
   const limit = parseInt(req.query.limit) || 10;
@@ -49,7 +48,7 @@ router.get('/:id/edit', needAuth, catchErrors(async (req, res, next) => {
 router.get('/:id', catchErrors(async (req, res, next) => {
   const question = await Question.findById(req.params.id).populate('author');
   const answers = await Answer.find({question: question.id}).populate('author');
-  question.numReads++;    // TODO: 동일한 사람이 본 경우에 Read가 증가하지 않도록???
+  question.numReads++;   
   await question.save();
   res.render('questions/show', {question: question, answers: answers});
 }));
@@ -75,6 +74,7 @@ router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
   req.flash('success', '성공적으로 정보가 삭제되었습니다.');
   res.redirect('/questions');
 }));
+
 
 router.post('/', needAuth, catchErrors(async (req, res, next) => {
   const user = req.session.user;
