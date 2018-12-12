@@ -6,7 +6,7 @@ function needAuth(req, res, next) {
     if (req.session.user) {
       next();
     } else {
-      req.flash('danger', 'Please signin first.');
+      req.flash('danger', '먼저 로그인 해주세요.');
       res.redirect('/signin');
     }
 }
@@ -18,23 +18,23 @@ function validateForm(form, options) {
   email = email.trim();
 
   if (!name) {
-    return 'Name is required.';
+    return '이름을 입력해주세요.';
   }
 
   if (!email) {
-    return 'Email is required.';
+    return '이메일 주소를 입력해주세요.';
   }
 
   if (!form.password && options.needPassword) {
-    return 'Password is required.';
+    return '비밀번호를 입력해주세요.';
   }
 
   if (form.password !== form.password_confirmation) {
-    return 'Passsword do not match.';
+    return '비밀번호가 일치하지 않습니다.';
   }
 
   if (form.password.length < 6) {
-    return 'Password must be at least 6 characters.';
+    return '비밀번호는 6자이상으로 입력해주십시오.';
   }
 
   return null;
@@ -75,12 +75,12 @@ router.put('/:id', needAuth, (req, res, next) => {
       return next(err);
     }
     if (!user) {
-      req.flash('danger', 'Not exist user.');
+      req.flash('danger', '존재하지 않는 회원입니다.');
       return res.redirect('back');
     }
 
     if (user.password !== req.body.current_password) {
-      req.flash('danger', 'Password is incorrect');
+      req.flash('danger', '비밀번호가 일치하지 않습니다.');
       return res.redirect('back');
     }
 
@@ -94,7 +94,7 @@ router.put('/:id', needAuth, (req, res, next) => {
       if (err) {
         return next(err);
       }
-      req.flash('success', 'Updated successfully.');
+      req.flash('success', '성공적으로 정보가 수정되었습니다.');
       res.redirect('/users');
     });
   });
@@ -105,7 +105,7 @@ router.delete('/:id', needAuth, (req, res, next) => {
     if (err) {
       return next(err);
     }
-    req.flash('success', 'Deleted Successfully.');
+    req.flash('success', '성공적으로 정보가 삭제되었습니다.');
     res.redirect('/users');
   });
 });
@@ -130,7 +130,7 @@ router.post('/', (req, res, next) => {
       return next(err);
     }
     if (user) {
-      req.flash('danger', 'Email address already exists.');
+      req.flash('danger', '이미 존재하는 이메일주소입니다.');
       return res.redirect('back');
     }
     var newUser = new User({
@@ -143,7 +143,7 @@ router.post('/', (req, res, next) => {
       if (err) {
         return next(err);
       } else {
-        req.flash('success', 'Registered successfully. Please sign in.');
+        req.flash('success', '성공적으로 회원가입되었습니다. 이제 로그인 해 주세요 .');
         res.redirect('/');
       }
     });

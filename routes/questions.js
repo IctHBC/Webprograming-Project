@@ -11,7 +11,7 @@ function needAuth(req, res, next) {
     if (req.session.user) {
       next();
     } else {
-      req.flash('danger', 'Please signin first..');
+      req.flash('danger', '먼저 로그인 해주세요.');
       res.redirect('/signin');
     }
 }
@@ -54,7 +54,7 @@ router.get('/:id', catchErrors(async (req, res, next) => {
   res.render('questions/show', {question: question, answers: answers});
 }));
 
-router.put('/:id', catchErrors(async (req, res, next) => {
+router.post('/:id', catchErrors(async (req, res, next) => {
   const question = await Question.findById(req.params.id);
 
   if (!question) {
@@ -66,13 +66,13 @@ router.put('/:id', catchErrors(async (req, res, next) => {
   question.tags = req.body.tags.split(" ").map(e => e.trim());
 
   await question.save();
-  req.flash('success', 'Successfully updated');
+  req.flash('success', '성공적으로 정보가 수정되었습니다.');
   res.redirect('/questions');
 }));
 
 router.delete('/:id', needAuth, catchErrors(async (req, res, next) => {
   await Question.findOneAndRemove({_id: req.params.id});
-  req.flash('success', 'Successfully deleted');
+  req.flash('success', '성공적으로 정보가 삭제되었습니다.');
   res.redirect('/questions');
 }));
 
@@ -85,7 +85,7 @@ router.post('/', needAuth, catchErrors(async (req, res, next) => {
     tags: req.body.tags.split(" ").map(e => e.trim()),
   });
   await question.save();
-  req.flash('success', 'Successfully posted');
+  req.flash('success', '새로운 글이 게시판에 업로드 되었습니다.');
   res.redirect('/questions');
 }));
 
@@ -107,7 +107,7 @@ router.post('/:id/answers', needAuth, catchErrors(async (req, res, next) => {
   question.numAnswers++;
   await question.save();
 
-  req.flash('success', 'Successfully answered');
+  req.flash('success', '새로운 댓글이 게시판에 업로드 되었습니다.');
   res.redirect(`/questions/${req.params.id}`);
 }));
 
